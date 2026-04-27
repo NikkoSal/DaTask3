@@ -10,6 +10,7 @@ import json
 from datetime import datetime
 from langchain_openai import ChatOpenAI
 from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
+import chardet
 
 st.set_page_config(page_title="AI Data Agent")
 
@@ -27,6 +28,13 @@ def fig_to_b64(fig) -> str:
     buf.seek(0)
     return base64.b64encode(buf.read()).decode()
 
+def load_csv_smart(file):
+    raw_data = file.read()
+    result = chardet.detect(raw_data)
+    encoding = result["encoding"]
+
+    file.seek(0)
+    return pd.read_csv(file, encoding=encoding)
 
 def auto_charts(df: pd.DataFrame) -> list[tuple]:
     charts = []
@@ -137,15 +145,10 @@ with st.sidebar:
 
 file = st.file_uploader("Загрузите CSV или Excel", type=["csv", "xlsx"])
 
-if file:
-    try:
-        if file.name.endswith(".csv"):
-            df = pd.read_csv(file)
-        else:
-            df = pd.read_excel(file)
-        st.session_state.df = df
-    except Exception as e:
-        st.error(f"Ошибка загрузки файла: {e}")
+if file.name.endswith(".csv"):
+    df = load_csv_smart(file)
+else:
+    df = pd.read_excel(file)
 
 df = st.session_state.df
 
