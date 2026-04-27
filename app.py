@@ -206,7 +206,7 @@ if df is not None:
             placeholder="Какие топ-5 категорий по выручке? Есть ли аномалии?",
         )
 
-        if st.button("🚀 Запустить агента", type="primary", use_container_width=True):
+        if st.button(" Запустить анализ", type="primary", use_container_width=True):
             if not api_key:
                 st.warning("Введите API-ключ в боковой панели!")
             elif not query:
