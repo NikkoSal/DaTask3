@@ -145,10 +145,25 @@ with st.sidebar:
 
 file = st.file_uploader("Загрузите CSV или Excel", type=["csv", "xlsx"])
 
-if file.name.endswith(".csv"):
-    df = load_csv_smart(file)
-else:
-    df = pd.read_excel(file)
+if file:
+    try:
+        if file.name.endswith(".csv"):
+            try:
+                df = pd.read_csv(file, encoding="utf-8")
+            except UnicodeDecodeError:
+                file.seek(0)
+                try:
+                    df = pd.read_csv(file, encoding="cp1251")
+                except UnicodeDecodeError:
+                    file.seek(0)
+                    df = pd.read_csv(file, encoding="latin-1")
+        else:
+            df = pd.read_excel(file)
+
+        st.session_state.df = df
+
+    except Exception as e:
+        st.error(f"Ошибка загрузки файла: {e}")
 
 df = st.session_state.df
 
