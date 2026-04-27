@@ -73,7 +73,7 @@
 ### Клонирование
 ```bash
 git clone https://github.com/NikkoSal/DaTask3.git
-cd ai-data-agent
+cd DaTask3
 ```
 ### Установка зависимостей
 ```bash
