@@ -64,7 +64,7 @@ def auto_charts(df: pd.DataFrame) -> list[tuple]:
                                         max(3, len(num_cols) * 0.7 + 0.5)))
         import numpy as np
         mask = np.triu(np.ones_like(corr, dtype=bool))
-        cmap = plt.cm.get_cmap("coolwarm")
+        cmap = matplotlib.colormaps["coolwarm"]
         im = ax.imshow(corr.values, cmap=cmap, vmin=-1, vmax=1, aspect="auto")
         ax.set_xticks(range(len(corr.columns)))
         ax.set_yticks(range(len(corr.columns)))
