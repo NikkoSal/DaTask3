@@ -218,7 +218,7 @@ if df is not None:
                         model=model_name,
                         base_url="https://openrouter.ai/api/v1",
                         temperature=0,
-                        max_tokens=1500,
+                        max_tokens=1000,
                     )
                     agent = create_pandas_dataframe_agent(
                         llm,
